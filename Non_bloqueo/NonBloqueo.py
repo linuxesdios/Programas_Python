@@ -18,6 +18,14 @@ class MiniAplicacion(QWidget):
         self.setWindowTitle('Non BLock')
         self.setFixedSize(200, 50)  # Fija el tamaño de la ventana
         icono = QIcon(resource_path("icono.jpg"))
+
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowMinimizeButtonHint & ~Qt.WindowMaximizeButtonHint | Qt.CustomizeWindowHint | Qt.WindowTitleHint) 
+
+
+
+        
+        
+        
         self.setWindowIcon(icono)
 
         self.btnIniciar = QPushButton('iniciar', self)
