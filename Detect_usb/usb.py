@@ -2,7 +2,7 @@ import win32api
 import win32file
  
 #
-# copiado y pegado desde  MSDN
+# esto es una prueba
 #
 DRIVE_TYPES = """
 0 	Unknown
