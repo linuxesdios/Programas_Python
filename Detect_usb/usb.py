@@ -2,7 +2,7 @@ import win32api
 import win32file
  
 #
-# esto esta mal
+# esto esta bien
 #
 DRIVE_TYPES = """
 0 	Unknown
