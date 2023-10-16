@@ -2,7 +2,7 @@ import win32api
 import win32file
  
 #
-# mundo es una cosa way
+# mundo es una 
 #
 DRIVE_TYPES = """
 0 	Unknown
