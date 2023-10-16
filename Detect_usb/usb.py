@@ -2,7 +2,7 @@ import win32api
 import win32file
  
 #
-# aadfsd
+# mundo es una cosa way
 #
 DRIVE_TYPES = """
 0 	Unknown
