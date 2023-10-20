@@ -95,4 +95,3 @@ def borrar_toda_tabla():
     conexion.commit()
     print("Se han eliminado todos los registros de la tabla.")
     conexion.close()
-imprimir_datos_desencriptados("mi_contrasena_maestra")

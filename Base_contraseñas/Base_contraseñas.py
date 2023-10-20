@@ -136,15 +136,3 @@ if __name__ == '__main__':
     ventana = Aplicacion_base_contrasenas()
     ventana.show()
     sys.exit(app.exec_())
-
-"""
-
-crear_tabla()
-insertar_datos("google", "linuxesdios", "pass1", contrasena_maestra)
-insertar_datos("facebook", "pablo", "pass2", contrasena_maestra)
-insertar_datos("twitter", "seda", "pass3", contrasena_maestra)
-print("bruto")
-imprimir_datos_bruto()
-print("des")
-imprimir_datos_desencriptados(contrasena_maestra)
-"""
