@@ -38,7 +38,7 @@ class Aplicacion_base_contrasenas(QWidget):
         self.txtMaestra = QLineEdit()
         self.txtMaestra.setPlaceholderText("contraseña maestra")
         self.txtMaestra.setEchoMode(QLineEdit.PasswordEchoOnEdit)
-
+        crear_tabla()
         grid = QGridLayout() # Declaramo sun gridlayout en donde ingresaremos todos los widget
         grid.addWidget(self.IbPag, 0, 0)
         grid.addWidget(self.txtPag, 0, 1)
@@ -58,7 +58,7 @@ class Aplicacion_base_contrasenas(QWidget):
         btnInsertar.clicked.connect(lambda: ventana.insertar_datos(ventana.txtPag.text(),ventana.txtUsuario.text(),ventana.txtContrasena.text(),ventana.txtMaestra.text()))
         
         btnEliminar = QPushButton('Eliminar') # Boton para eliminar datos
-        #btnEliminar.clicked.connect(self.eliminarDatos)
+        btnEliminar.clicked.connect(lambda: self.eliminar_datos(self.txtMaestra.text()))
 
         hbx = QHBoxLayout() # Declaramos un QHBoxLayout
         # Agregamos los elementos al layout
@@ -99,7 +99,7 @@ class Aplicacion_base_contrasenas(QWidget):
                 # Mostrar un cuadro de diálogo con el mensaje de contraseña no válida
                 self.table.setRowCount(0)
                 QMessageBox.critical(self, "Contraseña no válida", "La contraseña ingresada no es válida. Por favor, intenta nuevamente.")
-    
+   
     def insertar_datos(self, pag, usuario, contrasena, contrasena_maestra):
         # Verificar si algún campo está vacío
         if not pag or not usuario or not contrasena or not contrasena_maestra:
@@ -121,8 +121,12 @@ class Aplicacion_base_contrasenas(QWidget):
             # Encriptar las contraseñas
             contrasena_encriptada = encriptar_contrasena(contrasena, contrasena_maestra)
             usuario_encriptado = encriptar_contrasena(usuario, contrasena_maestra)
-
+            
+            print("\nValores encriptados:")
+            print(f"Usuario encriptado: {usuario_encriptado}")
+            print(f"Contraseña encriptada: {contrasena_encriptada}")
             datos = [(pag, usuario_encriptado, contrasena_encriptada)]
+
             conexion.executemany("INSERT INTO tabla_contrasenas(pag, usuario, contraseña) VALUES (?, ?, ?)", datos)
             conexion.commit()
             conexion.close()
@@ -131,6 +135,52 @@ class Aplicacion_base_contrasenas(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error al insertar datos", f"Ha ocurrido un error al insertar datos: {str(e)}")
 
+    def eliminar_datos(self,contrasena_maestra):
+        # Verificar si se ha seleccionado una fila en la tabla
+        selected_row = self.table.currentRow()
+        if selected_row == -1:
+            QMessageBox.warning(self, "No se ha seleccionado ninguna fila", "Por favor, selecciona una fila para eliminar.")
+            return
+
+        try:
+            # Obtener los valores de la fila seleccionada en la tabla
+            pagina = self.table.item(selected_row, 0).text()
+            usuario = self.table.item(selected_row, 1).text()
+            contrasena = self.table.item(selected_row, 2).text()
+
+
+            usuario_encriptado = encriptar_contrasena(usuario, contrasena_maestra)
+            contrasena_encriptada = encriptar_contrasena(contrasena, contrasena_maestra)
+            print(f"contraseña maestra: {contrasena_maestra}")
+            print("Valores de la fila seleccionada:")
+            print(f"Página: {pagina}")
+            print(f"Usuario: {usuario}")
+            print(f"Contraseña: {contrasena}")
+            print("\nValores encriptados:")
+            print(f"Usuario encriptado: {usuario_encriptado}")
+            print(f"Contraseña encriptada: {contrasena_encriptada}")
+
+            # Conexión a la base de datos y eliminación de datos
+            conexion = sqlite3.connect("bd1.db")
+            cursor = conexion.cursor()
+
+            # Realizar la eliminación de datos en función de los valores de las tres columnas
+            cursor.execute("DELETE FROM tabla_contrasenas WHERE pag = ? AND usuario = ? AND contraseña = ?", (pagina, usuario_encriptado, contrasena_encriptada))
+
+            if cursor.rowcount > 0:
+                # La operación fue exitosa
+                conexion.commit()
+                # Eliminar la fila seleccionada de la tabla
+                self.table.removeRow(selected_row)
+                QMessageBox.information(self, "Eliminación exitosa", "Los datos se han eliminado exitosamente.")
+            else:
+                # No se eliminó ninguna fila, mostrar un mensaje de error
+                conexion.close()
+                QMessageBox.warning(self, "No se encontraron datos para eliminar", "No se encontraron datos que coincidan con los valores especificados.")
+        except sqlite3.Error as e:
+            print("Error al eliminar fila:", e)
+        finally:
+            conexion.close()
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ventana = Aplicacion_base_contrasenas()

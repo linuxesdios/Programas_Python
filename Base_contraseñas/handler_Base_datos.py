@@ -23,6 +23,9 @@ def insertar_datos(pag, usuario, contrasena, contrasena_maestra):
     contrasena_encriptada = encriptar_contrasena(contrasena, contrasena_maestra)
     usuario_encriptado = encriptar_contrasena(usuario, contrasena_maestra)
     datos = [(pag, usuario_encriptado, contrasena_encriptada)]
+    print("\nValores encriptados:")
+    print(f"Usuario encriptado: {usuario_encriptado}")
+    print(f"Contraseña encriptada: {contrasena_encriptada}")
     conexion.executemany("INSERT INTO tabla_contrasenas(pag, usuario, contraseña) VALUES (?, ?, ?)", datos)
     conexion.commit()
     conexion.close()
