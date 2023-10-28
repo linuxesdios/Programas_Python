@@ -1,0 +1,11 @@
+Archivo de registro de teclas
+
+
+Inicio del programa: 2023-10-28 09:49:15
+esto es una prubbackspaceeba para ber backspacebackspacebackspacebackspacever como funciona el keyobackspacelogger kk
+
+Inicio del programa: 2023-10-28 09:56:00
+esto es una prueba para ver si mi keylogger funciona bien , o mal kk
+
+Inicio del programa: 2023-10-28 09:57:44
+esto es una prueva, para ver si las teclas se muestran 
