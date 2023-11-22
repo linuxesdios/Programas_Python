@@ -28,7 +28,7 @@ plt.plot(x, y1_normalized, label='open', color='blue')
 plt.xlabel('Fecha')
 plt.ylabel('open')
 plt.twinx()  # Crea un segundo eje y en el lado derecho
-plt.plot(x, y2_normalized, label='volumen', color='red')
+plt.plot(x, y2_normalized, label='volumeeçn', color='red')
 plt.ylabel('volumen')
 
 plt.title('Ejemplo de gráfica de dos series normalizadas')

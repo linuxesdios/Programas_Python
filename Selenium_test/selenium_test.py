@@ -16,7 +16,7 @@ boton_entrar = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@title
 # Introduce usuario y contraseña
 usuario.send_keys('2939876')
 time.sleep(5)
-password.send_keys('Termopilas21')
+password.send_keys('')
 time.sleep(5)
 # Haz clic en el botón "Entrar"
 boton_entrar.click()

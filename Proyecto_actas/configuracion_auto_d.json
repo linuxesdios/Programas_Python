@@ -1,0 +1,133 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "D:/programas_python/Proyecto_actas/Actas.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": true
+  },
+  {
+   "optionDest": "console",
+   "value": true
+  },
+  {
+   "optionDest": "icon_file",
+   "value": "C:/Users/pablo/Desktop/proyecto_actas/carpeta de datos/icono.ico"
+  },
+  {
+   "optionDest": "name",
+   "value": "Actas_Adif"
+  },
+  {
+   "optionDest": "clean_build",
+   "value": false
+  },
+  {
+   "optionDest": "strip",
+   "value": false
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "disable_windowed_traceback",
+   "value": false
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "argv_emulation",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/carpeta de datos/Diagrama para sic.pdf;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/carpeta de datos/actas.ui;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/carpeta de datos/Autor.jpg;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/carpeta de datos/icono.jpg;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/carpeta de datos/icono.ico;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/modelo.PROJPMF;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Acta_Liquidacion.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Acta_Recepcion.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Acta_Replanteo.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Acta_Resolucion_Adjudicacion.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_carta_adjudicatario.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_carta_no_adjudicatario.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_director_obra.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Inicio_Contrato_obr.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Inicio_Contrato_obr.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/Modelo_Inicio_Contrato_serv.docx;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:\\programas_python\\Proyecto_actas/0_Modelos/ModeloCartaInvitacion.docx;."
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}

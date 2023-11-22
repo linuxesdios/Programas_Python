@@ -42,7 +42,8 @@ class Contratos_App(QMainWindow):
 		self.filename = ""
 		self.path = ""
 		self.archivoJson = ""
-		
+		self.current_directory = os.path.dirname(os.path.abspath(sys.argv[0]))
+		print (self.current_directory)
 		# Verifica si se proporcionó al menos un argumento
 		if argumentos and len(argumentos) >= 1:
 			# Extrae la ruta del directorio y el nombre del archivo (incluyendo la extensión) del argumento
@@ -55,13 +56,13 @@ class Contratos_App(QMainWindow):
 			options |= QFileDialog.ReadOnly  # Solo permite abrir en modo de solo lectura
 			self.filename, _ = QFileDialog.getOpenFileName(None, "Seleccionar archivo", "", "Text Files (*.PROJPMF);;Text Files (*.txt);;All Files (*)", options=options)
 
-			self.path = os.path.dirname(self.filename) if self.filename else ""  # Extrae el directorio del archivo
+			
 		print (self.filename )
 		print (self.path  )
 		print (self.archivoJson  )
 		self.archivoJson = os.path.join(self.path, self.filename)
 
-		setup_ui(self)
+		setup_ui(self,self.current_directory)
 		set_tabla(self.TwEmpresas) 
 		set_TwOfertas(self.TwOfertas)
 		validator = setup_validators(self) 
@@ -84,8 +85,8 @@ class Contratos_App(QMainWindow):
 		self.Generar_acta_adj.clicked.connect(lambda: self.funciones_acta_adj())
 		self.Generar_carta_adj.clicked.connect(lambda: self.funciones_carta_adj())
 		self.Generar_acta_liq.clicked.connect (lambda: self.funciones_acta_liq())
-		self.Abrir_carpeta.clicked.connect(lambda: (print("Ruta seleccionada:", self.path), webbrowser.open(self.path+"//1_Salida")))
-		self.Abrir_portafirmas.clicked.connect(lambda: webbrowser.open("https://portafirmas.adif.es/ePortafirmas/Inicio.do?cr="))
+		self.Abrir_carpeta.clicked.connect(lambda: (print("Ruta seleccionada:", self.path), webbrowser.open(self.path+"\\1_Salida")))
+		self.Abrir_portafirmas.clicked.connect(lambda: webbrowser.open("https:\\portafirmas.adif.es/ePortafirmas/Inicio.do?cr="))
 		
 		#conectores de botones de tab2
 		self.Generar_replanteo.clicked.connect (lambda: self.funciones_acta_replanteo())
@@ -117,46 +118,46 @@ class Contratos_App(QMainWindow):
 			if comprobar_datos(self, (1, 19)):
 				eliminar_filas_vacias(self.TwEmpresas)
 				guardar_valores_en_json(self, self.archivoJson, (1, 60), (1, 5), (1, 3), (1, 2), (1, 10), self.TwEmpresas, self.TwOfertas)
-				insertar_tabla_en_documento_inicio(fichero_obra_servicio(self.path+"//0_Modelos/Modelo_Inicio_Contrato_serv.docx", self.path+"//0_Modelos/Modelo_Inicio_Contrato_obr.docx", self.Rb1), self.path+"//0_Modelos/Inicio_Contrato_prueba_contabla.docx", "EMPRESAS A LAS QUE SOLICITAR OFERTA", self.TwEmpresas.rowCount())
-				Sustituir(self, self.path+"//0_Modelos//Inicio_Contrato_prueba_contabla.docx", self.path+"//1_Salida/Inicio_Contrato.docx", self.archivoJson)
-				os.remove(self.path+"//0_Modelos//Inicio_Contrato_prueba_contabla.docx")
+				insertar_tabla_en_documento_inicio(fichero_obra_servicio( self.current_directory +"\\_internal\\0_Modelos/Modelo_Inicio_Contrato_serv.docx", self.current_directory+"\\_internal\\0_Modelos/Modelo_Inicio_Contrato_obr.docx", self.Rb1), self.current_directory+"\\_internal\\0_Modelos/Inicio_Contrato_prueba_contabla.docx", "EMPRESAS A LAS QUE SOLICITAR OFERTA", self.TwEmpresas.rowCount())
+				Sustituir(self,  self.current_directory+"\\_internal\\0_Modelos\\Inicio_Contrato_prueba_contabla.docx", self.path+"\\1_Salida\\Inicio_Contrato.docx", self.archivoJson)
+				os.remove( self.current_directory+"\\_internal\\0_Modelos\\Inicio_Contrato_prueba_contabla.docx")
 		except Exception as e:
 			QMessageBox.warning(self, "Warning", "An error occurred. Please check the inputs.")		
 	
 	def funciones_Cartas_inv(self):
 		#try:
-			if comprobar_datos(self, (1, 30)):
+			if comprobar_datos(self, (20, 22)):
 				eliminar_filas_vacias(self.TwEmpresas)
 				guardar_valores_en_json(self,self.archivoJson,        (1, 60),   (1, 5),   (1, 3),    (1, 2),   (1, 10),self.TwEmpresas,self.TwOfertas)
-				Sustituir_temp(self,self.path+"//0_Modelos//ModeloCartaInvitacion.docx", self.path+"//0_Modelos//ModeloCartaInvitacion_temp.docx", self.archivoJson)
-				Sustituir_cartas(self,self.path+"//0_Modelos//ModeloCartaInvitacion_temp.docx","CartaInvitacion.docx",self.archivoJson)
-				os.remove(self.path+"//0_Modelos//ModeloCartaInvitacion_temp.docx")
+				Sustituir_temp(self,self.current_directory+"\\_internal\\0_Modelos\\ModeloCartaInvitacion.docx", self.current_directory+"\\_internal\\0_Modelos\\ModeloCartaInvitacion_temp.docx", self.archivoJson)
+				Sustituir_cartas(self,self.current_directory+"\\_internal\\0_Modelos\\ModeloCartaInvitacion_temp.docx","CartaInvitacion.docx",self.archivoJson)
+				os.remove(self.current_directory+"\\_internal\\0_Modelos\\ModeloCartaInvitacion_temp.docx")
 		#except Exception as e:
 			#QMessageBox.warning(self, "Warning", "An error occurred. Please check the inputs.")	
 			
 	def funciones_carta_adj(self):
 		#try:
-			if comprobar_datos(self, (1, 30)) and repeticion_menor_valor(self.TwOfertas, float(self.Le26.text())) == 1:
+			if comprobar_datos(self, (23, 25)) and repeticion_menor_valor(self.TwOfertas, float(self.Le26.text())) == 1:
 				repeticion_menor_valor(self.TwOfertas,float(self.Le26.text()))
 				eliminar_filas_vacias(self.TwEmpresas)
 				guardar_valores_en_json(self,self.archivoJson, (1, 60), (1, 5), (1, 3),(1, 2),(1, 10),self.TwEmpresas,self.TwOfertas)
-				Sustituir_temp(self,self.path+"//0_Modelos//Modelo_carta_no_adjudicatario.docx", self.path+"//0_Modelos//Modelo_carta_no_adjudicatario_temp.docx",self.archivoJson)
-				Sustituir_temp(self,self.path+"//0_Modelos//Modelo_carta_adjudicatario.docx", self.path+"//0_Modelos//Modelo_carta_adjudicatario_temp.docx",self.archivoJson)
-				Sustituir_cartas_adj_no(self,self.path+"//0_Modelos//Modelo_carta_no_adjudicatario_temp.docx",self.path+"//0_Modelos//Modelo_carta_adjudicatario_temp.docx",obtener_posicion_empresa_menor(self.TwOfertas),"carta_no_adjudicatario.docx","carta_adjudicatario.docx",self.archivoJson)
-				os.remove(self.path+"//0_Modelos//Modelo_carta_no_adjudicatario_temp.docx")
-				os.remove(self.path+"//0_Modelos//Modelo_carta_adjudicatario_temp.docx")
+				Sustituir_temp(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_no_adjudicatario.docx", self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_no_adjudicatario_temp.docx",self.archivoJson)
+				Sustituir_temp(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_adjudicatario.docx", self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_adjudicatario_temp.docx",self.archivoJson)
+				Sustituir_cartas_adj_no(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_no_adjudicatario_temp.docx",self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_adjudicatario_temp.docx",obtener_posicion_empresa_menor(self.TwOfertas),"carta_no_adjudicatario.docx","carta_adjudicatario.docx",self.archivoJson)
+				os.remove(self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_no_adjudicatario_temp.docx")
+				os.remove(self.current_directory+"\\_internal\\0_Modelos\\Modelo_carta_adjudicatario_temp.docx")
 			else: 
 				QMessageBox.warning(self, "error en datos", "Revisa los datos , o falta algun datos o hay 2 ofertas similares y mas bajas")
 		#except Exception as e:
 			#QMessageBox.warning(self, "Warning", "An error occurred. Please check the inputs.")	
 	def funciones_acta_adj(self):
 		#try:
-			if comprobar_datos(self, (1, 30)) and repeticion_menor_valor(self.TwOfertas, float(self.Le26.text())) == 1:
+			if comprobar_datos(self, (23, 25)) and repeticion_menor_valor(self.TwOfertas, float(self.Le26.text())) == 1:
 				eliminar_filas_vacias(self.TwEmpresas)
 				guardar_valores_en_json(self,self.archivoJson,        (1, 60),   (1, 5),   (1, 3),    (1, 2),   (1, 10),self.TwEmpresas,self.TwOfertas)
-				insertar_tabla_en_documento_adjudicacion( self.path+"//0_Modelos//Modelo_Acta_Resolucion_Adjudicacion.docx",self.path+"//0_Modelos//Modelo_Acta_Resolucion_Adjudicacion_temp.docx", "EMPRESAS A LAS QUE SE LES HA SOLICITADO OFERTA", self.TwEmpresas.rowCount())
-				Sustituir(self,self.path+"//0_Modelos//Modelo_Acta_Resolucion_Adjudicacion_temp.docx",self.path+"//1_Salida//Acta_Resolucion_Adjudicacion.docx.docx",self.archivoJson)
-				os.remove(self.path+"//0_Modelos//Modelo_Acta_Resolucion_Adjudicacion_temp.docx")
+				insertar_tabla_en_documento_adjudicacion( self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Resolucion_Adjudicacion.docx",self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Resolucion_Adjudicacion_temp.docx", "EMPRESAS A LAS QUE SE LES HA SOLICITADO OFERTA", self.TwEmpresas.rowCount())
+				Sustituir(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Resolucion_Adjudicacion_temp.docx",self.path+"\\1_Salida\\Acta_Resolucion_Adjudicacion.docx.docx",self.archivoJson)
+				os.remove(self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Resolucion_Adjudicacion_temp.docx")
 			else :
 				QMessageBox.warning(self, "error en datos", "Revisa los datos , o falta algun datos o hay 2 ofertas similares y mas bajas")
 		#except Exception as e:
@@ -164,35 +165,35 @@ class Contratos_App(QMainWindow):
 				
 	def funciones_acta_liq(self):
 		try:
-			if comprobar_datos(self, (1, 35)):
+			if comprobar_datos(self, (23, 48)):
 				Comprobacion_licitado_facturado(self)
 				eliminar_filas_vacias(self.TwEmpresas)
 				guardar_valores_en_json(self,self.archivoJson, (1, 60), (1, 5), (1, 3),(1, 2),(1, 10),self.TwEmpresas,self.TwOfertas)
-				Sustituir(self,self.path+"//0_Modelos//Modelo_Acta_Liquidacion.docx",self.path+"//1_Salida//Acta_Liquidacion.docx",self.archivoJson)
+				Sustituir(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Liquidacion.docx",self.path+"\\1_Salida\\Acta_Liquidacion.docx",self.archivoJson)
 		except Exception as e:
 			QMessageBox.warning(self, "Warning", "An error occurred. Please check the inputs.")	
 	
 	def funciones_acta_replanteo(self):
 		try:
-			if comprobar_datos(self, (1, 39)):
+			if comprobar_datos(self, (50, 53)):
 				eliminar_filas_vacias(self.TwEmpresas)
 				guardar_valores_en_json(self,self.archivoJson, (1, 60), (1, 5), (1, 3),(1, 2),(1, 10),self.TwEmpresas,self.TwOfertas)
-				Sustituir(self,self.path+"//0_Modelos//Modelo_Acta_Replanteo.docx",self.path+"//1_Salida//Acta_Replanteo.docx",self.archivoJson)
+				Sustituir(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Replanteo.docx",self.path+"\\1_Salida\\Acta_Replanteo.docx",self.archivoJson)
 		except Exception as e:
 			QMessageBox.warning(self, "Warning", "An error occurred. Please check the inputs.")	
 			
 		
 	def funciones_acta_recepcion(self):
-		if comprobar_datos(self, (1, 45)):
+		if comprobar_datos(self, (54, 59)):
 			eliminar_filas_vacias(self.TwEmpresas)
 			guardar_valores_en_json(self,self.archivoJson, (1, 60), (1, 5), (1, 3),(1, 2),(1, 10),self.TwEmpresas,self.TwOfertas)
-			Sustituir(self,self.path+"//0_Modelos//Modelo_Acta_Recepcion.docx",self.path+"//1_Salida//Acta_Recepcion.docx.docx",self.archivoJson)
+			Sustituir(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_Acta_Recepcion.docx",self.path+"\\1_Salida\\Acta_Recepcion.docx.docx",self.archivoJson)
 		
 	def funciones_acta_Director(self):
 		if comprobar_datos(self, (1, 23)):
 			eliminar_filas_vacias(self.TwEmpresas)
 			guardar_valores_en_json(self,self.archivoJson, (1, 60), (1, 5), (1, 3),(1, 2),(1, 10),self.TwEmpresas,self.TwOfertas)
-			Sustituir(self,self.path+"//0_Modelos//Modelo_director_obra.docx",self.path+"//1_Salida//Acta_director_obra.docx",self.archivoJson)
+			Sustituir(self,self.current_directory+"\\_internal\\0_Modelos\\Modelo_director_obra.docx",self.path+"\\1_Salida\\Acta_director_obra.docx",self.archivoJson)
 
 	def Crear_proyecto(self):
 		

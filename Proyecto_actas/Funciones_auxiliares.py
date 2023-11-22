@@ -76,16 +76,14 @@ def Ajustar_liquidacion(window):
 		
 		window.Le40.setText("{:.2f}".format(float(window.Le39.text()) * 0.21))
 		window.Le41.setText("{:.2f}".format(float(window.Le39.text()) * 1.21))
-		print("entre1")
+
 		try:
 			porcentaje = float(window.Le26.text())
-			print("entre2")
 			if porcentaje != 0.0:
-				print("entre3")
-				print((str(float(window.Le32.text()) / float(window.Le26.text()))))
 				window.Le42.setText("{:.2f}".format((100 * (float(window.Le32.text())) / float(window.Le26.text()))))
 		except ValueError:
 			print("La cadena no es un número válido en formato float.")
+
 		if (float(window.Le26.text()) - float(window.Le32.text())+float(window.Le36.text()))>0:
 			
 			window.Le44.setText ("0.00")
@@ -164,16 +162,29 @@ def set_tabla(table_empresa):
 	header.setSectionResizeMode(QHeaderView.Stretch)
 
 	
-def setup_ui(window):
+def setup_ui(window,ruta):
 	while True:
 		try:
-			uic.loadUi(resource_path("actas.ui"), window)
+			ruta = ruta+"\_internal"
+
+			ui_path = os.path.join(ruta, "actas.ui")
+
+			ui_path = ui_path.replace("/", "\\") 
+
+			uic.loadUi(ui_path, window)
+			
 			ultima_carpeta = os.path.basename(window.path)
 			window.setWindowTitle("Contratos de patrimonio Centro Adif - "+ ultima_carpeta)
 			window.setWindowIcon(QIcon(resource_path("icono.jpg")))
 			break  # Salir del bucle si la carga es exitosa
 		except Exception as e:
 			print("Error al cargar la interfaz de usuario:", str(e))
+			respuesta = QMessageBox.critical(
+				None, "Error", "Error al cargar la interfaz de usuario. ¿Quieres seleccionar otra carpeta?",
+				QMessageBox.Yes | QMessageBox.No
+			)
+			if respuesta == QMessageBox.No:
+				sys.exit()
 			window.path = QFileDialog.getExistingDirectory(None, "Seleccionar ruta de proyecto")
 			print("Ruta seleccionada:", window.path)
 			
